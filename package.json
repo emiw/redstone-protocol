@@ -1,0 +1,69 @@
+{
+  "name": "@emiw/redstone-protocol",
+  "description": "The protocol and parser the worker-client communication in redstone",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "babel --source-maps inline src --out-dir dist",
+    "build:test": "babel --source-maps inline test --out-dir .test",
+    "pretest": "npm run build && npm run build:test",
+    "test": "npm run lint && ava .test",
+    "test:cov": "nyc npm run test",
+    "posttest:cov": "npm run check-cov",
+    "check-cov": "nyc check-coverage --lines 90 --functions 90 --branches 90",
+    "report": "nyc report --reporter=lcov",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint .",
+    "clean": "rimraf dist .test coverage .nyc_output",
+    "watch": "nodemon -w src -w test --exec \"npm run test\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emiw/redstone-protocol.git"
+  },
+  "author": {
+    "name": "Ari Porad",
+    "email": "ari@emiw.xyz"
+  },
+  "contributors": [
+    {
+      "name": "Ari Porad",
+      "email": "ari@emiw.xyz"
+    },
+    {
+      "name": "Zoe Carver",
+      "email": "zoe@emiw.xyz"
+    },
+    {
+      "name": "Henry Roseman",
+      "email": "henry@emiw.xyz"
+    }
+  ],
+  "devDependencies": {
+    "ava": "^0.9.1",
+    "babel-cli": "^6.3.17",
+    "babel-eslint": "^4.1.6",
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "coveralls": "^2.11.6",
+    "cz-conventional-changelog": "^1.1.4",
+    "eslint": "^1.10.1",
+    "eslint-config-airbnb": "^2.1.1",
+    "nodemon": "^1.8.1",
+    "nyc": "^5.0.0",
+    "proxyquire": "^1.7.3",
+    "rewire": "^2.5.0",
+    "rimraf": "^2.5.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emiw/redstone-protocol/issues"
+  },
+  "homepage": "https://github.com/emiw/redstone-protocol#readme",
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog/"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+  - stable
+  - "5"
+  - "4.0"
+notifications:
+  email: false
+before_install:
+  - npm i -g npm@3
+before_script:
+  - npm prune
+script:
+  - npm run test:cov
+after_script:
+  - npm run coveralls

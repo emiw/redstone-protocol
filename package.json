@@ -79,5 +79,8 @@
         "dist/**/*.js"
       ]
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

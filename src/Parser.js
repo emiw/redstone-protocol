@@ -2,10 +2,10 @@
 import EventEmitter from 'events';
 import { decode, END_OF_PACKET } from './parse';
 
-export default function createParser() {
+export default function createParser(socket = null) {
   const ee = new EventEmitter(); // TODO: Maybe switch to EventEmitter2?
   let chunk = '';
-  return {
+  const parser = {
     on: ::ee.on, // FIXME: This doesn't make us a real EE, we should figure out a way to do it properly.
 
     addChunk(newChunk) {
@@ -22,4 +22,8 @@ export default function createParser() {
       });
     },
   };
+
+  if (socket) socket.on('data', parser.addChunk);
+
+  return parser;
 }

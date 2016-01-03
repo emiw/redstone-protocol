@@ -7,7 +7,7 @@
     "build": "babel --source-maps inline src --out-dir dist",
     "build:test": "babel --source-maps inline test --out-dir .test",
     "pretest": "npm run build && npm run build:test",
-    "test": "npm run lint && BLUEBIRD_DEBUG=0 ava .test # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it",
+    "test": "npm run lint && BLUEBIRD_DEBUG=0 ava .test --verbose # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it",
     "test:cov": "nyc npm run test",
     "posttest:cov": "npm run check-cov",
     "check-cov": "nyc check-coverage --lines 90 --functions 90 --branches 90",

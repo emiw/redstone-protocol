@@ -92,6 +92,37 @@ parser.on('data', (data) => {
 
 ---
 
+## Protocol
+
+The actual protocol has hastily implemented by @ariporad, and it could certainly be implemented better. But here's 
+how it's implemented as of now:
+
+There are three terms you need to know:
+
+1. Packet - a single message which is sent over the network. It is made up of two sections.
+2. Meta section - the first part of the packet. It contains a JSON serialized, URL encoded object (ie. `encodeURIComponent(JSON.stringify(meta))`).
+3. Data section - Since this protocol was designed to pass through a large amount of data, this section is a base64 encoded Buffer.
+
+Packets are in the format: `meta:data;`
+
+Here's an example packet (`encode({ foo: 'bar' }, new Buffer('foo'))`)
+
+```
+%7B%22foo%22%3A%22bar%22%7D:Zm9v;
+^^^^^^^^^^ Meta ^^^^^^^^^^^ ^^^^ <- Data
+```
+
+Here's a "null" packet:
+
+```
+:;
+```
+
+For ideas/discussion about improving the protocol, see [the wiki page](https://github.com/emiw/redstone-protocol/wiki/Ideas-for-improving-the-protocol.).
+
+
+---
+
 ## License
 
 [MIT: emiw.mit-license.org.](http://emiw.mit-license.org)

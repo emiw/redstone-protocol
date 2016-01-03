@@ -1,6 +1,6 @@
 /* (c) 2015-2016 EMIW, LLC. emiw.xyz/license */
 import EventEmitter from 'events';
-import { decode, END_OF_PACKET } from './parse';
+import { encode, decode, END_OF_PACKET } from './parse';
 
 export default function createParser(socket = null) {
   const ee = new EventEmitter(); // TODO: Maybe switch to EventEmitter2?
@@ -20,6 +20,10 @@ export default function createParser(socket = null) {
         if (ret.data) ee.emit('data', ret.data);
         if (ret.meta) ee.emit('meta', ret.meta);
       });
+    },
+
+    write(meta, data) {
+      return socket.write(encode(meta, data));
     },
   };
 

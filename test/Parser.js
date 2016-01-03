@@ -116,3 +116,21 @@ test.cb('passing in a socket (partial packets)', ({ context: { metas, datas, don
   server.write(combinedStr.slice(0, 10));
   server.write(combinedStr.slice(10));
 });
+
+test.cb('Parser.write', t => {
+  t.plan(1);
+
+  const meta = { foo: 'bar' };
+  const data = new Buffer('baz');
+  const expectedEncodedString = encode(meta, data);
+
+  const { client, server } = createFakeSocket();
+  const parser = createParser(client);
+
+  server.on('data', (chunk) => {
+    t.is(chunk, expectedEncodedString, 'data was encoded');
+    t.end();
+  });
+
+  parser.write(meta, data);
+});

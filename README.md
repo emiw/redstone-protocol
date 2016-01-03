@@ -73,7 +73,6 @@ console.log(decoded.data.toString('utf8'); // "foo bar baz"
 
 // The parser exists as a way to abstract away the process of storing chunks as the come in from a socket, extracting
 // the packets, and parsing them.
-// It doesn't contain any systems for decoding. It's just for encoding.
 const socket = getNetSocketSomehow();
 const parser = createParser();
 socket.on('data', parser.addChunk);
@@ -88,6 +87,12 @@ parser.on('meta', (meta) => {
 parser.on('data', (data) => {
   // data = Buffer(...)
 });
+socket.write(encode({ foo: 'bar' }));
+
+// There are a few abstractions for dealing with sockets. To use them, just pass in a socket to `createParser`:
+const parser = createParser(socket); // This automatically does `socket.on('data', parser.addChunk)`
+parser.write(meta, data); // same as parser.write(encode(meta, data));
+
 ```
 
 ---

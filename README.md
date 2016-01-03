@@ -48,12 +48,47 @@
 
 ---
 
-## Why?
+## Usage
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget tempus eros. Sed blandit urna risus, fermentum sagittis
-massa vestibulum eu. Nulla lacinia ut magna tristique lobortis. Donec a justo dictum magna interdum eleifend. Nunc porta
-sem leo, non molestie eros hendrerit vel. Quisque et ante convallis, posuere velit a, pellentesque sapien. Etiam euismod
-tellus non justo vehicula efficitur.
+```javascript
+import { encode, decode, createParser } from '@emiw/redstone-protocol';
+
+// There are two sides to this module, the lower level encode/decode, and the higher level Parser class-ish.
+
+// Encode/Decode
+
+// Encoding
+// IMPORTANT: `meta` must be JSON serializable, and data must be a buffer!
+const encoded = encode({ state: 5, foo: 'bar' }, new Buffer('foo bar baz')); // encode(meta, data)
+console.log(encoded); // "%7B%22state%22%3A5%2C%22foo%22%3A%22bar%22%7D:Zm9vIGJhciBiYXo=;"
+
+// Decoding
+const decoded = decode(encoded);
+console.log(decoded); // "{ meta: { state: 5, foo: 'bar' }, data: <Buffer 66 6f 6f 20 62 61 72 20 62 61 7a> }"
+console.log(decoded.data.toString('utf8'); // "foo bar baz"
+
+// See below for more on the actual protocol.
+
+// Parser
+
+// The parser exists as a way to abstract away the process of storing chunks as the come in from a socket, extracting
+// the packets, and parsing them.
+// It doesn't contain any systems for decoding. It's just for encoding.
+const socket = getNetSocketSomehow();
+const parser = createParser();
+socket.on('data', parser.addChunk);
+
+// WARNING: All of these events will be fired for every packet.
+parser.on('packet', (packet) => {
+  // packet = { meta: ..., data: ... }
+});
+parser.on('meta', (meta) => {
+  // meta = ...
+});
+parser.on('data', (data) => {
+  // data = Buffer(...)
+});
+```
 
 ---
 

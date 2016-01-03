@@ -33,14 +33,14 @@ test('decode(encode(\'\', \'\'))', t => {
 });
 
 test('invalid decoding', t => {
-  const testDecode = decodeodee => t.throws(() => decode(decodeodee));
+  const testDecode = decodee => t.throws(() => decode(decodee));
   testDecode('foo');
   testDecode('');
   testDecode({ foo: 'bar' });
 });
 
 test('invalid encoding (data not a Buffer)', t => {
-  const testEncode = encodeodee => t.throws(() => encode(null, encodeodee));
+  const testEncode = decodee => t.throws(() => encode(null, decodee));
   testEncode('foo');
   testEncode({ foo: 'bar' });
   testEncode('');

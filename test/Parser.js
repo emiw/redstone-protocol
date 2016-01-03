@@ -4,7 +4,6 @@ import createFakeSocket from './_fakeSocket';
 import { encode } from '../dist/parse';
 import createParser from '../dist/Parser';
 
-
 test.beforeEach(t => {
   t.context.parser = createParser();
   t.context.metas = [{ foo: 'bar' }, { baz: [1, 'qux'] }, { quux: [1, 2, 3] }];
@@ -58,11 +57,11 @@ test.cb('partial packets', ({ context: { parser, metas, datas, done }, ...t }) =
   parser.addChunk(combinedStr.slice(10));
 });
 
-test.cb('`packet` event', ({ context: { parser, metas, datas, emitPacket }, ...t }) => {
-  parser.on('fullPacket', (packet) => {
+test.cb('`packet` event', ({ context: { parser, metas, datas, emitPacket, done }, ...t }) => {
+  parser.on('packet', (packet) => {
     t.is(packet.data.toString('utf8'), datas.shift(), 'data matches');
     t.same(packet.meta, metas.shift(), 'meta matches');
-    t.end();
+    done(t);
   });
 
   emitPacket();

@@ -8,13 +8,14 @@
     "build:test": "babel --source-maps inline test --out-dir .test",
     "pretest": "npm run lint && npm run build && npm run build:test",
     "test": "BLUEBIRD_DEBUG=0 ava .test --verbose # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it",
+    "pretest:cov": "mkdirp .nyc_output",
     "test:cov": "nyc npm run test",
     "posttest:cov": "npm run check-cov",
     "check-cov": "nyc check-coverage --lines 90 --functions 90 --branches 90",
     "report": "nyc report --reporter=lcov",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
-    "clean": "rimraf dist .test coverage .nyc_output",
+    "clean": "rimraf dist .test coverage",
     "watch": "nodemon -w src -w test --exec \"npm run test\""
   },
   "repository": {
@@ -50,6 +51,7 @@
     "cz-conventional-changelog": "^1.1.4",
     "eslint": "^1.10.1",
     "eslint-config-airbnb": "^2.1.1",
+    "mkdirp": "^0.5.1",
     "nodemon": "^1.8.1",
     "nyc": "^5.0.0",
     "proxyquire": "^1.7.3",

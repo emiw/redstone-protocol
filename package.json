@@ -9,7 +9,7 @@
     "pretest": "npm run lint && npm run build && npm run build:test",
     "test": "BLUEBIRD_DEBUG=0 ava .test --verbose # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it",
     "pretest:cov": "mkdirp .nyc_output",
-    "test:cov": "nyc npm run test",
+    "test:cov": "nyc --all npm run test",
     "posttest:cov": "npm run check-cov",
     "check-cov": "nyc check-coverage --lines 90 --functions 90 --branches 90",
     "report": "nyc report --reporter=lcov",
@@ -66,6 +66,14 @@
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog/"
+    },
+    "nyc": {
+      "exclude": [
+        ".test",
+        "test",
+        "src"
+      ],
+      "include": ["dist/**/*.js"]
     }
   }
 }

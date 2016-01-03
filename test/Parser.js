@@ -134,3 +134,8 @@ test.cb('Parser.write', t => {
 
   parser.write(meta, data);
 });
+
+test('Parser.write with no socket', t => {
+  t.plan(1);
+  t.throws(() => createParser().write({ foo: 'bar' }, new Buffer('baz')), /socket/i, 'throws without a socket');
+});

@@ -23,6 +23,7 @@ export default function createParser(socket = null) {
     },
 
     write(meta, data) {
+      if (!socket) throw new Error('No socket provided!');
       return socket.write(encode(meta, data));
     },
   };

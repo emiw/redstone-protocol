@@ -17,7 +17,7 @@
   , "clean": "rimraf dist .test coverage"
   , "watch": "nodemon -w src -w test --exec \"npm run test\""
   , "semantic-release": "npm run build && semantic-release pre && npm publish && semantic-release post"
-  , "format-package": "format-json package.json | sponge package.json"
+  , "format-package": "format-json package.json | sponge package.json && git add package.json"
   , "precommit": "npm run format-package && npm run test"
   }
 , "repository":
@@ -83,5 +83,8 @@
   }
 , "publishConfig":
   { "access": "public"
+  }
+, "dependencies":
+  { "protobufjs": "^5.0.1"
   }
 }

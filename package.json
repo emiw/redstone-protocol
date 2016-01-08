@@ -3,7 +3,8 @@
 , "main": "dist/index.js"
 , "scripts":
   { "prebuild": "npm run clean"
-  , "build": "babel --source-maps inline src --out-dir dist"
+  , "build": "babel --source-maps inline src --out-dir dist && npm run build:protobuf"
+  , "build:protobuf": "node ./scripts/build-proto.js dist"
   , "build:test": "babel --source-maps inline test --out-dir .test"
   , "pretest": "npm run lint && npm run build && npm run build:test"
   , "test": "BLUEBIRD_DEBUG=0 ava .test --verbose # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it"
@@ -59,6 +60,7 @@
   , "rewire": "^2.5.0"
   , "rimraf": "^2.5.0"
   , "semantic-release": "^4.3.5"
+  , "shelljs": "^0.5.3"
   , "sponge": "^0.1.0"
   }
 , "license": "MIT"

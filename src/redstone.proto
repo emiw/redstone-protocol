@@ -1,0 +1,9 @@
+message Data {
+  required int32 friendID = 1;
+  required bytes data = 2;
+}
+
+message Ctrl {
+  optional int32 friendID = 1;
+  required string json = 2;
+}

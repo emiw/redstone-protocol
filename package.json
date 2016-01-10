@@ -7,7 +7,7 @@
   , "build:protobuf": "node ./scripts/build-proto.js dist"
   , "build:test": "babel --source-maps inline test --out-dir .test"
   , "pretest": "npm run lint && npm run build && npm run build:test"
-  , "test": "BLUEBIRD_DEBUG=0 ava .test --verbose # BLUEBIRD_DEBUG b/c ava makes it complain + we don't use it"
+  , "test": "BLUEBIRD_DEBUG=0 ava .test --verbose --require source-map-support/register"
   , "pretest:cov": "mkdirp .nyc_output"
   , "test:cov": "nyc --all npm run test"
   , "posttest:cov": "npm run check-cov"
@@ -61,6 +61,7 @@
   , "rimraf": "^2.5.0"
   , "semantic-release": "^4.3.5"
   , "shelljs": "^0.5.3"
+  , "source-map-support": "^0.4.0"
   , "sponge": "^0.1.0"
   }
 , "license": "MIT"

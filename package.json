@@ -51,10 +51,11 @@
   , "coveralls": "^2.11.6"
   , "cz-conventional-changelog": "^1.1.4"
   , "eslint": "^1.10.1"
-  , "eslint-config-airbnb": "^2.1.1"
+  , "eslint-config-airbnb": "^3.1.0"
   , "format-json": "^1.0.3"
   , "husky": "^0.10.2"
   , "mkdirp": "^0.5.1"
+  , "ncp": "^2.0.0"
   , "nodemon": "^1.8.1"
   , "nyc": "^5.0.0"
   , "proxyquire": "^1.7.3"
@@ -75,10 +76,12 @@
     { "path": "node_modules/cz-conventional-changelog/"
     }
   , "nyc":
-    { "exclude":
+    { "all": true
+    , "exclude":
       [ ".test"
       , "test"
       , "src"
+      , "**/*.proto.js"
       ]
     , "include":
       [ "dist/**/*.js"
@@ -90,5 +93,6 @@
   }
 , "dependencies":
   { "protobufjs": "^5.0.1"
+  , "varint": "^4.0.0"
   }
 }

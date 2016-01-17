@@ -1,3 +1,14 @@
+// See https://developers.google.com/protocol-buffers/docs/techniques?hl=en
+message Wrapper {
+  enum Type { Data = 1; Ctrl = 2; } // I don't really think we need this.
+  required Type type = 1;
+
+  // TODO: Move to extensions
+  optional Data data = 2;
+  optional Ctrl ctrl = 3;
+}
+
+// TODO: Move into separate files
 message Data {
   required int32 friendID = 1;
   required bytes data = 2;

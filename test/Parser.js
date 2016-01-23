@@ -63,3 +63,7 @@ test('$packetType event (ctrl)', async ({ context: { parser, input }, ...t }) =>
     'packet is correct'
   );
 });
+
+test('invalid packets', ({ context: { input }, ...t }) => {
+  t.throws(() => input.push('foo!'), /invalid packet/i);
+});

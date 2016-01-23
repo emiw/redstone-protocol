@@ -15,7 +15,8 @@ const debugObject = (title, object) => {
 };
 
 // Because git.io/fast-v8
-const tryCatch = (mightThrow, handler = () => {}) => {
+/* istanbul ignore next: not worth testing */
+const tryCatch = (mightThrow, handler) => {
   try {
     return mightThrow();
   } catch (err) {
@@ -32,6 +33,7 @@ export default function createParser() {
   const ee = new EventEmitter();
 
   stream._write = (chunk, encoding, callback) => {
+    /* istanbul ignore next: no clue how to test */
     if (encoding !== 'buffer') chunk = new Buffer(chunk, encoding); // No clue if this is right
     debug('---> Got chunk: %s', chunk.toString('hex'));
 
@@ -48,7 +50,10 @@ export default function createParser() {
         ee.emit('packet', { packet, type: packetType });
         ee.emit(packetType, packet);
       },
-      () => debug(INDENT + 'ERROR! Got invalid packet!'),
+      () => {
+        debug(INDENT + 'ERROR! Got invalid packet!');
+        throw new Error('Invalid Packet!');
+      }
     );
     callback();
   };

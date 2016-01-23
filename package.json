@@ -92,7 +92,8 @@
   { "access": "public"
   }
 , "dependencies":
-  { "protobufjs": "^5.0.1"
+  { "debug": "^2.2.0"
+  , "protobufjs": "^5.0.1"
   , "varint": "^4.0.0"
   }
 }

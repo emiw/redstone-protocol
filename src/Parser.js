@@ -3,6 +3,16 @@ import { Writable } from 'stream';
 import EventEmitter from 'events';
 import ProtoBuf from 'protobufjs';
 import redstone from './redstone.proto';
+import createDebug from 'debug';
+
+const debug = createDebug('redstone:protocol:Parser');
+const INDENT = '--->     '; // TODO: I don't like this system
+const debugObject = (title, object) => {
+  debug(INDENT + title);
+  JSON.stringify(object, null, 2)
+    .split('\n')
+    .forEach(line => debug(`${INDENT}    ${line}`));
+};
 
 // Because git.io/fast-v8
 const tryCatch = (mightThrow, handler = () => {}) => {
@@ -23,18 +33,22 @@ export default function createParser() {
 
   stream._write = (chunk, encoding, callback) => {
     if (encoding !== 'buffer') chunk = new Buffer(chunk, encoding); // No clue if this is right
+    debug('---> Got chunk: %s', chunk.toString('hex'));
 
     let wrapper = null;
     tryCatch(
       () => {
         wrapper = redstone.Wrapper.decode(chunk);
+        debugObject('Decoded Wrapper:', wrapper);
         ee.emit('wrapper', wrapper);
         const packetType = enumToString(redstone.Wrapper.Type, wrapper.type).toLowerCase();
+        debug(INDENT + 'Packet Type: %s', packetType);
         const packet = wrapper[packetType];
+        debugObject('Packet:', packet);
         ee.emit('packet', { packet, type: packetType });
         ee.emit(packetType, packet);
       },
-      () => console.error('ERROR! INVALID PACKET!: ' + chunk.toString('hex')),
+      () => debug(INDENT + 'ERROR! Got invalid packet!'),
     );
     callback();
   };
